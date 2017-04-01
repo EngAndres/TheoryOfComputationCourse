@@ -1,8 +1,23 @@
-import java.io.*;
+/*
+# Solution for a class exercise.
+#
+# Created by Msc. Carlos Andres Sierra on February 2017.
+# Copyright (c) 2017  Msc. Carlos Andres Sierra. Research Group on Artificial Life - ALIFE. All rights reserved.
+#
+# This file is part of TheoryOfComputation course.
+#
+# TheoryOfComputationCourse is free software: you can redistribute it and/or modify it under the terms of the
+# GNU General Public License as published by the Free Software Foundation, version 2.
+*/
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 
 /**
- * @author carlosandressierra
- *
+ * This class represents the behavior of Task Practical.2
+ * @author MSc. Carlos Andres Sierra, PhD. student
  */
 public class Taller_2 {
 
