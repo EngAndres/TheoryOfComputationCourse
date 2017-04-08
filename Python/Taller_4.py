@@ -17,10 +17,14 @@ if(index < size and input[index]=='b'):
         #move to q2
         index += 1
         
-        while(index < size and input[index]=='b'):
-            #loop in q2
+        if(index < size and input[index]=='b'):
+            #move to q3
             index += 1
         
+            while(index < size and input[index]=='b'):
+                #loop in q3
+                index += 1
+         
     else:
         accepted = False
 else:
