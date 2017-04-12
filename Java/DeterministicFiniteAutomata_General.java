@@ -6,9 +6,10 @@
 #
 # This file is part of TheoryOfComputation course.
 #
-# DataStructureCourse is free software: you can redistribute it and/or modify it under the terms of the
+# TheoryOfComputationCourse is free software: you can redistribute it and/or modify it under the terms of the
 # GNU General Public License as published by the Free Software Foundation, version 2.
 */
+
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -22,86 +23,88 @@ import java.io.OutputStreamWriter;
  */
 public class DeterministicFiniteAutomata_General {
 
+	/**
+	 * Main method of the class
+	 */
 	public static void main(String args[])
 	{
-		//Se coloca la funcion de transiciones - En este caso, cantidad par de a'es
-		String[][] funcion = {
+		//Here we define the Function of Transition, each row is a new transition.
+		String[][] function = {
 				{"", "a", "b"}, 
 				{"q0", "q1", "q0"},
 				{"q1", "q0", "q1"}}; 
 				
-		//El estado actual siempre sera q0
-		String estado_actual = "q0";
+		//It is defined the initial state; traditionally, it is defined as q0
+		String current_state = "q0";
 		
-		//Se coloca el conjunto de estados de aceptacion
-		String[] estados_aceptacion = {"q0"};
+		//We define the set of acceptance states of the automata, each one is separated by colons
+		String[] acceptance_states = {"q0"};
 		
-		//Se crean los objetos buffer para trabajar con la consola
+		//These are two buffers, respectively to read and write, that works with the console
 		BufferedReader br = new BufferedReader ( new InputStreamReader (System.in));
 		BufferedWriter bw = new BufferedWriter ( new OutputStreamWriter (System.out) );
 		
+		//The input is reject until the automata shoes that the simulation finish on a acceptance state
+		boolean accepted = false;
+		
+		String input; //Variable to save the input 
+		int row = 0, column = 0; //Row and column where is located the next state in each transition' change
+		
+		
 		try 
 		{
-			String cadena = br.readLine(); //Se lee la cadena desde la consola
-			int fila = 0, columna = 0; //Fila y columna donde se encuentra el siguiente estado
+			input = br.readLine(); //Read the input string from the console
 			
-			for(int i = 0; i < cadena.length(); i++) //Se recorre la cadena por completo
+			for(int i = 0; i < input.length(); i++) //This loop is used to simulate the movement of the read-unit over the tape
 			{
-				//Se recorre la tabla en la columna 0 para encontrar el estado actual
-				for(int j = 0; j < funcion.length; j++) 
+				//We need to search in the column 0 to seek the row that corresponds at the current state of the automata
+				for(int j = 0; j < function.length; j++) 
 				{
-					if(estado_actual.equals( funcion[j][0] )) //Si el estado actual ha sido encontrado en la tabla
+					if(current_state.equals( function[j][0] )) //Si el estado actual ha sido encontrado en la tabla
 					{
-						fila = j; //Se guarda la fila correspondiente
-						break; //Como se encuentra, no es necesario recorrer mas
+						row = j; //It is saved the row that correspond to the state of reference
+						break; //It is not necessary to search more states in the column
 					}
 				}
 				
-				//Se recorre la tabla en la fila 0 para encontrar la columna que corresponde al simbolo que se esta procesando
-				for(int j = 0; j < funcion[0].length; j++)
+				//We need to search in the row 0 to seek the column that corresponds at the symbol on the tape
+				for(int j = 0; j < function[0].length; j++)
 				{
-					if(funcion[0][j].equals( cadena.charAt(i)+"" )) //Si el simbolo en la tabla es igual al simbolo procesado
+					if(function[0][j].equals( input.charAt(i)+"" )) //Check if the symbol of the table is equal to the symbol on the tape
 					{
-						columna = j; //Se guarda la columna correspondiente
-						break; //Como se encuentra la columna, no es necesario recorrer mas
+						column = j; //It is saved the column that correspond to the symbol of reference
+						break; //It is not necessary to search more symbols in the row
 					}
 				}
 				
-				//Se guarda el estado al que se mueve
-				estado_actual = funcion[fila][columna];
+				//Using the Function of Transitions, with the row and column gathered as parameters, we define the next state of the automata
+				current_state = function[row][column];
 				
-				//Se pregunta si el estado actual llego a una transicion vacia o nula
-				if(estado_actual.equals("null"))
+				//If the result of function' evaluation is null, the input can't be completely processed by the automata
+				if( current_state.equals("null") )
 				{
 					break;
 				}
-			} //Fin del ciclo que recorre la cadena
+			} //End of loop to move across the tape
 			
-			//Es falsa hasta que no se compruebe que el ultimo al que llega es un estado de aceptacion
-			boolean aceptada = false;
-			
-			//Se compara el ultimo estado con el conjunto de estados de aceptacion
-			for(int i = 0; i < estados_aceptacion.length; i++)
+			//It is compared the last state of the automata with the acceptance states set
+			for(int i = 0; i < acceptance_states.length; i++)
 			{
-				if(estado_actual.equals( estados_aceptacion[i] )) //Si el estado actual es de aceptacion
+				if(current_state.equals( acceptance_states[i] )) //It determines if the last state of the simulation is of acceptance
 				{
-					aceptada = true;
-					break;
+					accepted = true; //Like the input finished in a acceptance state, the input is accepted
+					break; //It is not necessary search more states in the set
 				}
 			}
 			
-			//Se imprime la informacion
-			if(aceptada)
-			{
+			//It is printed on the console the result of the automata
+			if( accepted )
 				bw.write("Cadena aceptada");
-			}
 			else
-			{
 				bw.write("Cadena rechazada");
-			}
-			bw.flush();
-			
-		} catch (IOException e) {}
 		
+			bw.flush();
+		} 
+		catch (IOException e) {}
 	}
 }
