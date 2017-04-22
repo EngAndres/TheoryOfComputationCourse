@@ -18,7 +18,7 @@ index = 0 #Index of the read-unit over the tape
 
 ############### AUTOMATA SIMULATION ###################
 #starts in q0
-if(index < size and input[index]=='b'): 
+if(index < size and input[index]=='b'):     
     #move to q1
     index += 1 #move unit one step forward
     
